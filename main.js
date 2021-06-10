@@ -7,6 +7,7 @@ const main = async () => {
   let numberOfInvalid = 0;
 
   const getNumberOfQuestions = () => {
+    //ask how many questions are on the worksheet
     inquirer
       .prompt([
         {
@@ -16,12 +17,23 @@ const main = async () => {
         },
       ])
       .then(async (answers) => {
+        //if answer is not a number or isn't greater than 0, ask again via recursion
+        if (
+          isNaN(answers.numberOfQuestions) ||
+          answers.numberOfQuestions == 0
+        ) {
+          console.log("Please supply a number greater than 0");
+          return getNumberOfQuestions();
+        }
+
         numberOfQuestions = answers.numberOfQuestions;
         await askQuestions(numberOfQuestions);
         await results();
       });
   };
 
+  //loop through the amount of questions to ask each question
+  //input: int
   const askQuestions = async (questions) => {
     for (i = 0; i < questions; i++) {
       await inquirer
@@ -45,6 +57,8 @@ const main = async () => {
     }
   };
 
+  //determine whether the answer is invalid, incorrect, or correct
+  //input: object returned by inquirer
   const solveQuestion = ({ inputTemp, studentResponse }) => {
     const inputTempToFloat = parseFloat(inputTemp);
     const studentResponseToFloat = parseFloat(studentResponse);
@@ -68,6 +82,7 @@ const main = async () => {
     }
   };
 
+  //show results of the worksheet
   const results = async () => {
     console.log(`Number of total correct: ${numberOfCorrect}`);
     console.log(`Number of total incorrect: ${numberOfIncorrect}`);
