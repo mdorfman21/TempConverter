@@ -43,13 +43,13 @@ const main = async () => {
             message: "Select Input Units",
             name: "inputUnits",
             type: "rawlist",
-            choices: ["Kelvin", "Celsius", "Fahrenheit", "Rankine"],
+            choices: ["Celsius", "Fahrenheit", "Kelvin", "Rankine"],
           },
           {
             message: "Select Target Units",
             name: "targetUnits",
             type: "rawlist",
-            choices: ["Kelvin", "Celsius", "Fahrenheit", "Rankine"],
+            choices: ["Celsius", "Fahrenheit", "Kelvin", "Rankine"],
           },
           {
             message: "Student Response",
@@ -83,45 +83,69 @@ const main = async () => {
       numberOfIncorrect++;
       return console.log("Answer is incorrect");
     }
-    let concatUnits = inputUnits + targetUnits;
-    "Kelvin", "Celsius", "Fahrenheit", "Rankine";
-    switch (concatUnits) {
-      case "FahrenheitKelvin":
-        isCorrect(fToK(inputTempToFloat), studentResponseToFloat);
+
+    if (inputUnits == targetUnits) {
+      isCorrect(inputTempToFloat, studentResponseToFloat);
+    }
+
+    //determines which formula to use based on the input units and target units are
+    switch (inputUnits) {
+      case "Fahrenheit":
+        switch (targetUnits) {
+          case "Celsius":
+            isCorrect(kToC(fToK(inputTempToFloat)), studentResponseToFloat);
+            break;
+          case "Kelvin":
+            isCorrect(fToK(inputTempToFloat), studentResponseToFloat);
+            break;
+          case "Rankine":
+            isCorrect(kToR(fToK(inputTempToFloat)), studentResponseToFloat);
+            break;
+        }
         break;
-      case "CelsiusKelvin":
-        isCorrect(cToK(inputTempToFloat), studentResponseToFloat);
+      case "Celsius":
+        switch (targetUnits) {
+          case "Fahrenheit":
+            isCorrect(kToF(cToK(inputTempToFloat)), studentResponseToFloat);
+            break;
+          case "Kelvin":
+            isCorrect(cToK(inputTempToFloat), studentResponseToFloat);
+            break;
+          case "Rankine":
+            isCorrect(kToR(cToK(inputTempToFloat)), studentResponseToFloat);
+            break;
+        }
         break;
-      case "RankineKelvin":
-        isCorrect(rToK(inputTempToFloat), studentResponseToFloat);
+      case "Kelvin":
+        switch (targetUnits) {
+          case "Celsius":
+            isCorrect(kToC(inputTempToFloat), studentResponseToFloat);
+            break;
+          case "Fahrenheit":
+            isCorrect(kToF(inputTempToFloat), studentResponseToFloat);
+            break;
+          case "Rankine":
+            isCorrect(kToR(inputTempToFloat), studentResponseToFloat);
+            break;
+        }
         break;
-      case "KelvinCelsius":
-        isCorrect(kToC(inputTempToFloat), studentResponseToFloat);
+      case "Rankine":
+        switch (targetUnits) {
+          case "Celsius":
+            isCorrect(kToC(rToK(inputTempToFloat)), studentResponseToFloat);
+            break;
+          case "Kelvin":
+            isCorrect(rToK(inputTempToFloat), studentResponseToFloat);
+            break;
+          case "Fahrenheit":
+            isCorrect(kToF(rToK(inputTempToFloat)), studentResponseToFloat);
+            break;
+        }
         break;
-      case "KelvinFahrenheit":
-        isCorrect(kToF(inputTempToFloat), studentResponseToFloat);
-        break;
-      case "KelvinRankine":
-        isCorrect(kToR(inputTempToFloat), studentResponseToFloat);
-        break;
-      case "FahrenheitCelsius":
-        isCorrect(kToC(fToK(inputTempToFloat)), studentResponseToFloat);
-        break;
-      case "FahrenheitRankine":
-        isCorrect(kToR(fToK(inputTempToFloat)), studentResponseToFloat);
-        break;
-      case "CelsiusFahrenheit":
-        isCorrect(kToF(cToK(inputTempToFloat)), studentResponseToFloat);
-        break;
-      case "CelsiusRankine":
-        isCorrect(kToR(cToK(inputTempToFloat)), studentResponseToFloat);
-      case "RankineFahrenheit":
-        isCorrect(kToF(rToK(inputTempToFloat)), studentResponseToFloat);
-      case "RankineCelsius":
-        isCorrect(kToC(rToK(inputTempToFloat)), studentResponseToFloat);
     }
   };
 
+  //compares the calculated answer to the student response
   const isCorrect = (result, studentResponseToFloat) => {
     if (Math.round(result) == Math.round(studentResponseToFloat)) {
       numberOfCorrect++;
@@ -132,40 +156,45 @@ const main = async () => {
     }
   };
 
+  //fahrenheit to kelvin
   const fToK = (inputTemp) => {
     const result = ((inputTemp - 32) * 5) / 9 + 273.15;
-    console.log(result);
+    console.log(result, "should be the result before rounding");
     return result;
   };
 
+  //celsius to kelvin
   const cToK = (inputTemp) => {
-    console.log(inputTemp);
     const result = inputTemp + 273.15;
-    console.log(result);
+    console.log(result, "should be the result before rounding");
     return result;
   };
 
+  //rankine to kelvin
   const rToK = (inputTemp) => {
     const result = inputTemp / 1.8;
-    console.log(result);
+    console.log(result, "should be the result before rounding");
     return result;
   };
 
+  //kelvin to fahrenheit
   const kToF = (inputTemp) => {
     const result = ((inputTemp - 273.15) * 9) / 5 + 32;
-    console.log(result);
+    console.log(result, "should be the result before rounding");
     return result;
   };
 
+  //kelvin to celsius
   const kToC = (inputTemp) => {
     const result = inputTemp - 273.15;
-    console.log(result);
+    console.log(result, "should be the result before rounding");
     return result;
   };
 
+  //kelvin to rankine
   const kToR = (inputTemp) => {
     const result = inputTemp * 1.8;
-    console.log(result);
+    console.log(result, "should be the result before rounding");
     return result;
   };
 
@@ -178,7 +207,6 @@ const main = async () => {
   };
 
   getNumberOfQuestions();
-  // fToK(32);
 };
 
 main();
