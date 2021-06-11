@@ -88,7 +88,7 @@ const main = async () => {
       isCorrect(inputTempToFloat, studentResponseToFloat);
     }
 
-    //determines which formula to use based on the input units(type: string) and target units(type: string) are
+    //determines which formula to use based on the input units(type: string) and target units(type: string)
     switch (inputUnits) {
       case "Fahrenheit":
         switch (targetUnits) {
