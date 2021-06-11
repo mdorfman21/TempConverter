@@ -142,6 +142,10 @@ const main = async () => {
             break;
         }
         break;
+      default:
+        numberOfInvalid++;
+        return "There was an error with the program";
+        break;
     }
   };
 
