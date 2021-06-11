@@ -88,7 +88,7 @@ const main = async () => {
       isCorrect(inputTempToFloat, studentResponseToFloat);
     }
 
-    //determines which formula to use based on the input units and target units are
+    //determines which formula to use based on the input units(type: string) and target units(type: string) are
     switch (inputUnits) {
       case "Fahrenheit":
         switch (targetUnits) {
@@ -145,11 +145,11 @@ const main = async () => {
       default:
         numberOfInvalid++;
         return console.log("There was an error with the program");
-        break;
     }
   };
 
   //compares the calculated answer to the student response
+  //input: int
   const isCorrect = (result, studentResponseToFloat) => {
     if (Math.round(result) == Math.round(studentResponseToFloat)) {
       numberOfCorrect++;
@@ -161,6 +161,7 @@ const main = async () => {
   };
 
   //fahrenheit to kelvin
+  //input: int
   const fToK = (inputTemp) => {
     const result = ((inputTemp - 32) * 5) / 9 + 273.15;
     console.log(result, "should be the result before rounding");
@@ -168,6 +169,7 @@ const main = async () => {
   };
 
   //celsius to kelvin
+  //input: int
   const cToK = (inputTemp) => {
     const result = inputTemp + 273.15;
     console.log(result, "should be the result before rounding");
@@ -175,6 +177,7 @@ const main = async () => {
   };
 
   //rankine to kelvin
+  //input: int
   const rToK = (inputTemp) => {
     const result = inputTemp / 1.8;
     console.log(result, "should be the result before rounding");
@@ -182,6 +185,7 @@ const main = async () => {
   };
 
   //kelvin to fahrenheit
+  //input: int
   const kToF = (inputTemp) => {
     const result = ((inputTemp - 273.15) * 9) / 5 + 32;
     console.log(result, "should be the result before rounding");
@@ -189,6 +193,7 @@ const main = async () => {
   };
 
   //kelvin to celsius
+  //input: int
   const kToC = (inputTemp) => {
     const result = inputTemp - 273.15;
     console.log(result, "should be the result before rounding");
@@ -196,6 +201,7 @@ const main = async () => {
   };
 
   //kelvin to rankine
+  //input: int
   const kToR = (inputTemp) => {
     const result = inputTemp * 1.8;
     console.log(result, "should be the result before rounding");
