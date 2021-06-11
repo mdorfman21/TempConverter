@@ -144,7 +144,7 @@ const main = async () => {
         break;
       default:
         numberOfInvalid++;
-        return "There was an error with the program";
+        return console.log("There was an error with the program");
         break;
     }
   };
