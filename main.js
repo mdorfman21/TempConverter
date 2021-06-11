@@ -40,6 +40,12 @@ const main = async () => {
         .prompt([
           { message: "Input Temperature", name: "inputTemp", type: "text" },
           {
+            message: "Select Input Units",
+            name: "inputUnits",
+            type: "rawlist",
+            choices: ["Kelvin", "Celsius", "Fahrenheit", "Rankine"],
+          },
+          {
             message: "Select Target Units",
             name: "targetUnits",
             type: "rawlist",
@@ -59,7 +65,12 @@ const main = async () => {
 
   //determine whether the answer is invalid, incorrect, or correct
   //input: object returned by inquirer
-  const solveQuestion = ({ inputTemp, studentResponse }) => {
+  const solveQuestion = ({
+    inputTemp,
+    studentResponse,
+    inputUnits,
+    targetUnits,
+  }) => {
     const inputTempToFloat = parseFloat(inputTemp);
     const studentResponseToFloat = parseFloat(studentResponse);
 
@@ -72,14 +83,90 @@ const main = async () => {
       numberOfIncorrect++;
       return console.log("Answer is incorrect");
     }
+    let concatUnits = inputUnits + targetUnits;
+    "Kelvin", "Celsius", "Fahrenheit", "Rankine";
+    switch (concatUnits) {
+      case "FahrenheitKelvin":
+        isCorrect(fToK(inputTempToFloat), studentResponseToFloat);
+        break;
+      case "CelsiusKelvin":
+        isCorrect(cToK(inputTempToFloat), studentResponseToFloat);
+        break;
+      case "RankineKelvin":
+        isCorrect(rToK(inputTempToFloat), studentResponseToFloat);
+        break;
+      case "KelvinCelsius":
+        isCorrect(kToC(inputTempToFloat), studentResponseToFloat);
+        break;
+      case "KelvinFahrenheit":
+        isCorrect(kToF(inputTempToFloat), studentResponseToFloat);
+        break;
+      case "KelvinRankine":
+        isCorrect(kToR(inputTempToFloat), studentResponseToFloat);
+        break;
+      case "FahrenheitCelsius":
+        isCorrect(kToC(fToK(inputTempToFloat)), studentResponseToFloat);
+        break;
+      case "FahrenheitRankine":
+        isCorrect(kToR(fToK(inputTempToFloat)), studentResponseToFloat);
+        break;
+      case "CelsiusFahrenheit":
+        isCorrect(kToF(cToK(inputTempToFloat)), studentResponseToFloat);
+        break;
+      case "CelsiusRankine":
+        isCorrect(kToR(cToK(inputTempToFloat)), studentResponseToFloat);
+      case "RankineFahrenheit":
+        isCorrect(kToF(rToK(inputTempToFloat)), studentResponseToFloat);
+      case "RankineCelsius":
+        isCorrect(kToC(rToK(inputTempToFloat)), studentResponseToFloat);
+    }
+  };
 
-    if (Math.round(inputTempToFloat) == Math.round(studentResponseToFloat)) {
+  const isCorrect = (result, studentResponseToFloat) => {
+    if (Math.round(result) == Math.round(studentResponseToFloat)) {
       numberOfCorrect++;
       return console.log("Answer is correct");
     } else {
       numberOfIncorrect++;
       return console.log("Answer is incorrect");
     }
+  };
+
+  const fToK = (inputTemp) => {
+    const result = ((inputTemp - 32) * 5) / 9 + 273.15;
+    console.log(result);
+    return result;
+  };
+
+  const cToK = (inputTemp) => {
+    console.log(inputTemp);
+    const result = inputTemp + 273.15;
+    console.log(result);
+    return result;
+  };
+
+  const rToK = (inputTemp) => {
+    const result = inputTemp / 1.8;
+    console.log(result);
+    return result;
+  };
+
+  const kToF = (inputTemp) => {
+    const result = ((inputTemp - 273.15) * 9) / 5 + 32;
+    console.log(result);
+    return result;
+  };
+
+  const kToC = (inputTemp) => {
+    const result = inputTemp - 273.15;
+    console.log(result);
+    return result;
+  };
+
+  const kToR = (inputTemp) => {
+    const result = inputTemp * 1.8;
+    console.log(result);
+    return result;
   };
 
   //show results of the worksheet
@@ -91,6 +178,7 @@ const main = async () => {
   };
 
   getNumberOfQuestions();
+  // fToK(32);
 };
 
 main();
